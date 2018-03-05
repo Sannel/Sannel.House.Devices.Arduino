@@ -28,14 +28,15 @@
 #include <HardwareSerial.h>
 #include <SensorPacket.h>
 #include <Si7021.h>
+#include "AWire.h"
 
 using namespace Sannel::House::Sensor;
 
 WiFiClient client;
 SensorStore store(2);
 SensorPacket packet;
-Temp::BME280 bme280_1(0x77);
-Temp::BME280 bme280_2(0x76);
+Temperature::BME280 bme280_1(0x77);
+Temperature::BME280 bme280_2(0x76);
 Temp::TMP102 temp(0x48);
 Temp::Si7021 temp2(0x40);
 
