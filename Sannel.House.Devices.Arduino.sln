@@ -12,9 +12,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sannel.House.Devices.Arduino.Play", "src\Sannel.House.Devices.Arduino.Play\Sannel.House.Devices.Arduino.Play.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{7FAD06D2-F0DF-499D-AA25-CA012705AD37}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sannel", "Sannel.House.Common\src\Sannel\Sannel.vcxitems", "{4C4B7312-3B0C-4973-B431-E3C4A08CE0AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Play", "src\Sannel.House.Devices.Play\Play.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Sannel.House.Common\src\Sannel\Sannel.vcxitems*{4c4b7312-3b0c-4973-b431-e3c4a08ce0ab}*SharedItemsImports = 9
+		Sannel.House.Common\src\Sannel\Sannel.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
@@ -29,6 +37,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{4C4B7312-3B0C-4973-B431-E3C4A08CE0AB} = {7FAD06D2-F0DF-499D-AA25-CA012705AD37}
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88} = {F84321D6-5C74-4960-AC46-AED4DB263C94}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
