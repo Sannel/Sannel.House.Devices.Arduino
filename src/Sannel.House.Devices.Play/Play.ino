@@ -33,11 +33,12 @@
 using namespace Sannel::House::Sensor;
 
 WiFiClient client;
+AWire wire;
 SensorStore store(2);
 SensorPacket packet;
-Temperature::BME280 bme280_1(0x77);
-Temperature::BME280 bme280_2(0x76);
-Temp::TMP102 temp(0x48);
+Temperature::BME280 bme280_1(wire.GetDeviceById(0x77));
+Temperature::BME280 bme280_2(wire.GetDeviceById(0x76));
+Temperature::TMP102 temp(0x48);
 Temp::Si7021 temp2(0x40);
 
 
@@ -47,6 +48,7 @@ void setup()
 	digitalWrite(LED_BUILTIN, HIGH);
 	Serial.begin(115200);
 	delay(250);
+	wire.Begin();
 	Serial.println();
 	Serial.println();
 #ifdef DEBUG
