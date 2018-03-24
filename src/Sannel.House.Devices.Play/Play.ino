@@ -28,7 +28,9 @@
 #include <HardwareSerial.h>
 #include <SensorPacket.h>
 #include <Si7021.h>
-#include "AWire.h"
+#include <AWire.h>
+#include <APDS9301.h>
+//#include "SparkFunBME280.h"
 
 using namespace Sannel::House::Sensor;
 
@@ -36,11 +38,11 @@ WiFiClient client;
 AWire wire;
 SensorStore store(2);
 SensorPacket packet;
-Temperature::BME280 bme280_1(wire.GetDeviceById(0x77));
-Temperature::BME280 bme280_2(wire.GetDeviceById(0x76));
-Temperature::TMP102 temp(0x48);
-Temp::Si7021 temp2(0x40);
-
+Temperature::BME280 bme280_1(wire.GetDeviceById(0x76));
+Temperature::BME280 bme280_2(wire.GetDeviceById(0x77));
+Temperature::TMP102 temp(wire.GetDeviceById(0x48));
+Temperature::Si7021 si(wire.GetDeviceById(0x40));
+Light::APDS9301 l(wire.GetDeviceById(0x39));
 
 void setup()
 {
@@ -48,7 +50,7 @@ void setup()
 	digitalWrite(LED_BUILTIN, HIGH);
 	Serial.begin(115200);
 	delay(250);
-	wire.Begin();
+	wire.Begin(SDA, SCL);
 	Serial.println();
 	Serial.println();
 #ifdef DEBUG
@@ -79,11 +81,15 @@ void setup()
 
 	store.SetMacAddress(mac);
 
+	Serial.println();
+
 	bme280_1.Begin();
 	bme280_2.Begin();
 	temp.Begin();
-	temp.wakeup();
-	temp2.Begin();
+	temp.Wakeup();
+	si.Begin();
+	l.Begin();
+	l.SetGain(true);
 }
 
 void loop()
@@ -95,14 +101,15 @@ void loop()
 	packet.Offset = 0;
 	packet.Values[0] = bme280_1.GetTemperatureCelsius();
 	packet.Values[1] = bme280_2.GetTemperatureCelsius();
-	packet.Values[2] = temp.GetTemperatureCelsius();
-	packet.Values[3] = temp2.GetRelativeHumidity();
-	packet.Values[4] = temp2.GetTemperatureCelsius();
-
-	Serial.print("Temp1:");
-	Serial.println(packet.Values[0]);
-	Serial.print("Temp2:");
-	Serial.println(packet.Values[1]);
+	packet.Values[2] = bme280_2.GetRelativeHumidity();
+	packet.Values[3] = bme280_2.GetPressure();
+	packet.Values[4] = temp.GetTemperatureCelsius();
+	packet.Values[6] = si.GetRelativeHumidity();
+	packet.Values[5] = si.GetTemperatureCelsius();
+	packet.Values[7] = l.GetLuxLevel();
+//	packet.Values[2] = temp.GetTemperatureCelsius();
+//	packet.Values[3] = temp2.GetRelativeHumidity();
+//	packet.Values[4] = temp2.GetTemperatureCelsius();
 
 	store.AddReading(packet);
 
